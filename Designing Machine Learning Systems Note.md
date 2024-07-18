@@ -349,15 +349,15 @@ Then there's the wonderfully weird world of _third-party data_
 > **Second-party data** is the data collected by another company on their own customers that they make available to you, though you'll probably have to pay for it.
 > **Third-party data** companies collect data on the public who aren't their direct customers.
 
-*The rise of the internet and smartphones has made it much easier for all types of data to be collected. It used to be especially easy with smartphones since each phone used to have a unique advertiser ID - iPhone with Apple's Identifier for Advertisers (IDFA) and Android phones with their Android Advertising ID (AAID) - which acted as a unique ID to aggregate all activities on a phone. Data from apps, websites, check-in services, etc. are collected and (hopefully) anonymized to generate activity history for each person.*
+_The rise of the internet and smartphones has made it much easier for all types of data to be collected. It used to be especially easy with smartphones since each phone used to have a unique advertiser ID - iPhone with Apple's Identifier for Advertisers (IDFA) and Android phones with their Android Advertising ID (AAID) - which acted as a unique ID to aggregate all activities on a phone. Data from apps, websites, check-in services, etc. are collected and (hopefully) anonymized to generate activity history for each person._
 
-From this data, you can infer information such as people who like brand A also like brand B. This data can be especially helpful for systems such as recommender systems to generate result relevant to users' interests. 
+From this data, you can infer information such as people who like brand A also like brand B. This data can be especially helpful for systems such as recommender systems to generate result relevant to users' interests.
 
 ## **2. Data Formats**
 
-Since your data comes from multiple sources with different access patterns, storing your data isn't always straightforward and, for some cases, can be costly. It's important to think about how the data will be used in the future so that the format you use will make sense. 
+Since your data comes from multiple sources with different access patterns, storing your data isn't always straightforward and, for some cases, can be costly. It's important to think about how the data will be used in the future so that the format you use will make sense.
 
-The process of converting a data structure or object state into a format that can be stored or transmitted and reconstructed later in *data serialization*. 
+The process of converting a data structure or object state into a format that can be stored or transmitted and reconstructed later in _data serialization_.
 
 | Format   | Binary/Text    | Human-readable | Example use cases             |
 | -------- | -------------- | -------------- | ----------------------------- |
@@ -370,15 +370,15 @@ The process of converting a data structure or object state into a format that ca
 
 ### **2.1. Row-Major vs. Column-Major Format**
 
-*CSV*  (comma-separated values) is row-major, which means consecutive elements in a row are stored next to each other in memory. *Parquet* is column-major, which means consecutive elements in a column are stored next to each other
+_CSV_ (comma-separated values) is row-major, which means consecutive elements in a row are stored next to each other in memory. _Parquet_ is column-major, which means consecutive elements in a column are stored next to each other
 
-This means that for row-major formats, accessing data by rows is expected to be faster than accessing data by columns and vice versa. 
+This means that for row-major formats, accessing data by rows is expected to be faster than accessing data by columns and vice versa.
 
-Column-major formats allow flexible column-based reads, especially if your data is large with thousands, if not millions, of features. Row-major formats allow faster data writes. 
+Column-major formats allow flexible column-based reads, especially if your data is large with thousands, if not millions, of features. Row-major formats allow faster data writes.
 
---- 
+---
 
-One subtle point that a lot of people don't pay attention to, which leads to misuses of `pandas`, is that this library is built around the columnar format. 
+One subtle point that a lot of people don't pay attention to, which leads to misuses of `pandas`, is that this library is built around the columnar format.
 
 In `NumPy`, the major order can be specified. When an `ndarray` is created, it's row-major by default if you don't specify the order.
 
@@ -388,9 +388,9 @@ If you want to calculate on `DataFrame`'s row, you should change `DataFrame` obj
 
 ### **2.2. Text vs. Binary Format**
 
-CSV and JSON are text files, whereas Parquet files are binary files. Text files are plain text which usually means they are human-readable. 
+CSV and JSON are text files, whereas Parquet files are binary files. Text files are plain text which usually means they are human-readable.
 
-Binary files are the catchall that refers to all nontext files. As the name suggest, binary files are typically files that contain only 0s and 1s, and are meant to be read or used by programs that know how to interpret the raw bytes. 
+Binary files are the catchall that refers to all nontext files. As the name suggest, binary files are typically files that contain only 0s and 1s, and are meant to be read or used by programs that know how to interpret the raw bytes.
 
 > Binary files are more compact. Here's a simple example to show how binary files can save space compared to text files. Consider that you want to store the number 1000000. If you store it in a text file, it'll require 7 characters, and if each character is 1 byte, it'll require 7 bytes. If you store it in a binary file as `int32`, it'll take only 32 bits or 4 bytes
 
@@ -398,15 +398,15 @@ AWS recommends using the Parquet format because "the Parquet format is up to 2x 
 
 ## **3. Data Models**
 
-Data models describe how data is represented. 
+Data models describe how data is represented.
 
-How you choose to represent data not only affects the way your systems are built, but also the problems your systems can solve. 
+How you choose to represent data not only affects the way your systems are built, but also the problems your systems can solve.
 
 ### **3.1. Relational Model**
 
 We discuss how normalization works and how it can reduce data redundancy and improve data integrity.
 
-For example, 
+For example,
 
 ![[Pasted image 20240716174707.png]]
 
@@ -416,19 +416,19 @@ The most important thing to note about SQL is that it's a declarative language, 
 
 #### From Declarative Data Systems to Declarative ML Systems
 
-With a declarative MLs, users only need to declare the features' shema and the task, and the system will figure out the best model to perform that task with the given features. 
+With a declarative MLs, users only need to declare the features' shema and the task, and the system will figure out the best model to perform that task with the given features.
 
-Popular frameworks for declarative ML are **Ludwig** and **H2O AutoML**. 
+Popular frameworks for declarative ML are **Ludwig** and **H2O AutoML**.
 
 ### **3.2. NoSQL**
 
-NoSQL has been retroactively reinterpreted as "Not Only SQL", as many NoSQL data systems also support relational models. Two major types of nonrelational models are the document model and the graph model. 
+NoSQL has been retroactively reinterpreted as "Not Only SQL", as many NoSQL data systems also support relational models. Two major types of nonrelational models are the document model and the graph model.
 
-The document model targets use cases where data comes in self-contained documents and relationships between one document and another are rare. The graph model goes in the opposite direction, targeting use cases where relationships between data items are common and important. 
+The document model targets use cases where data comes in self-contained documents and relationships between one document and another are rare. The graph model goes in the opposite direction, targeting use cases where relationships between data items are common and important.
 
 #### Document Model
 
-A document is often a single continuous string, encoded as JSON, XML, or a binary format like BSON. 
+A document is often a single continuous string, encoded as JSON, XML, or a binary format like BSON.
 
 Because the document model doesn't enforce a schema, it's often referred to as schemaless. This is misleading because data stored in documents will be read later. The application that reads the documents usually assumes some kind of structure of the documents. Document databases just shift the responsibility of assuming structures from the application that writes the data to the application that reads the data
 
@@ -436,10 +436,9 @@ However, compared to the relational model, it's harder and less efficient to exe
 
 #### Graph Model
 
-The graph model is built around the concept of a "graph" which consists of nodes and edges. A database that uses graph structures to store its data is called a graph database. If in document databases, the content of each document is the priority, then in graph databases, the relationships, which is represented by the edges,  between data items are the priority.
+The graph model is built around the concept of a "graph" which consists of nodes and edges. A database that uses graph structures to store its data is called a graph database. If in document databases, the content of each document is the priority, then in graph databases, the relationships, which is represented by the edges, between data items are the priority.
 
-Because the relationships are modeled explicitly in graph models, it's faster to retrieve data based on relationships. 
-
+Because the relationships are modeled explicitly in graph models, it's faster to retrieve data based on relationships.
 
 ### **3.3. Structured vs. Unstructured Data**
 
@@ -454,4 +453,37 @@ The key differences between structured and unstructured data
 | Stored in data warehouse                    | Stored                                                                                                                 |
 
 ## **4. Data Storage Engines and Processing**
+
+Data formats and data models specify the interface for how users can store and retrieve data. Storage engines, also known as databases, are the implementation of how data is stored and retrieved on machines.
+
+Typically, there are two types of workloads that databases are optimized for, transactional processing and analytical processing, and there's a big difference between them. 
+
+### **4.1. Transactional and Analytical Processing**
+
+The transactions are inserted as they are generated, and occasionally updated when something changes, or deleted when they are no longer needed. This type of processing is known as *online transaction processing* (OLTP)
+
+Because these transactions often involve users, they need to be processed fast (low latency) so that they don't keep users waiting. The processing method needs to have high availability - that is, the processing system need to be available any time a user wants to make a transaction.
+
+Transactional databases are designed to process online transactions and satisfy the low latency, high available requirements. When people hear transactional databases, they usually think of ACID (atomicity, consistency, islation, durability). 
+
+*Atomicity*
+	To guarantee that all the steps in a transaction are completed successfully as a group. If any step in the transaction fails, all other steps must fail also. 
+
+*Consistency*
+	To guarantee that all the transactions coming through must follow predefined rules. For example, a transaction must be made by a valid user.
+
+*Isolation*
+	To guarantee that two transactions happen at the same time as if they were isolated. Two users accessing the same data won't change it at the same time. For example, you don't want two users to book the same driver at the same time.  
+
+*Durability*
+	To guarantee that once a transaction has been committed, it will remain committed even in the case of a sys failure. For example, after you've ordered a ride and your phone dies, you still want your ride to come. 
+
+Because each transaction is often processed as a unit separately from other transactions, transactional databases are often row-major. Analytical databases are designed for the purpose which requires aggregating data in columns across multiple rows of data. They are efficient with queries that allow you to look at data from different viewpoints. We call this type of processing *online analytical processing* (OLAP)
+
+However, both the terms OLTP and OLAP have become outdated for three reasons. 
+1. The separation of transactional and analytical databases was due to limitations of technology - it was hard to have databases that could handle both transactional and analytical queries efficiently. Today, we have transactional databases that can handle analytical queries, such as **CockroachDB**. We also have analytical databases that can handle transactional queries, such as **Apache Iceberg** and **DuckDB**
+2. In the traditional OLTP & OLAP paradigms, storage and processing are tightly coupled - how data is stored is also how data is processed. In the last decade, paradigm has been to decouple storage from processing (also known as compute), as adopted by many data vendors including Google's BigQuery, Snowflake, IBM, and Teradata. In this paradigm, the data can be stored in the same place, with a processing layer on top that can be optimized for different types of queries.
+3. "Online" has become an overloaded term that can mean many different things Online used to just mean "connect to the internet". Then, it grew to also mean "in production" - we say a feature is online after that feature has been deployed in production.
+
+### **4.2. ETL: Extract, Transform, and Load**
 
