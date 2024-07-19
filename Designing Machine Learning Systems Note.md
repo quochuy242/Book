@@ -143,6 +143,8 @@ You or someone in ur life might already be a victim of biased mathematical algor
 
 #### **Interpretability (khả năng diễn giải)**
 
+#interpretablility
+
 > _"Suppose you have cancer and you have to choose between a black box AI surgeon that cannot explain how it works but has a 90% cure rate and a human surgeon with an 80% cure rate. Do you want the AI surgeon to be illegal?"_
 
 First, interpretability is important for users, both business leaders and end users, to understand why a decision is made so that they can trust a model and detect potential biases mentioned previously.
@@ -160,6 +162,8 @@ For now, getting these large models into production, especially on edge devices 
 # Chapter 2: Introduction to Machine Learning Systems Design
 
 ## **1. Business and ML Objectives**
+
+#Metrics 
 
 When working on a ML project, DS tend to care about the ML objectives: the metrics thay can measure about the performance of their ML models such as accuracy, F1-Score, inference latency, etc.
 
@@ -211,6 +215,9 @@ It's important to structure your workloads and set up your infrastructure. Code 
 To adapt to shifting data distributions and business requirements, the sys should have some capacity for both discovering aspects for performance improvement and allowing updates without service interuption.
 
 # **3. Iterative Process**
+
+#Deployment 
+#DataEngineering
 
 Developing an MLs is an iterative and, in most cases, never-ending process. One a sys is put into production, it'll need to be continually monitored and updated.
 
@@ -286,6 +293,7 @@ The second approach is to turn it into a set of binary cls problems. For the art
 
 ## **4.2. Objective Functions**
 
+
 To learn, an ML model needs an objective function to guide the learning process.
 An objective function is also called a loss function, because the objective of the learning process is usually to minimize (or optimize) the loss caused by wrong predictions.
 
@@ -319,6 +327,7 @@ No one can deny that data is essential, for now. Both the research and industry 
 
 # Chapter 3: Data Engineering Fundamentals
 
+#DataEngineering 
 #StreamingData
 
 The rise of ML in recent years is tightly coupled with the rise of big data.
@@ -370,6 +379,9 @@ The process of converting a data structure or object state into a format that ca
 
 ### **2.1. Row-Major vs. Column-Major Format**
 
+#Row-Major
+#Column-Major
+
 _CSV_ (comma-separated values) is row-major, which means consecutive elements in a row are stored next to each other in memory. _Parquet_ is column-major, which means consecutive elements in a column are stored next to each other
 
 This means that for row-major formats, accessing data by rows is expected to be faster than accessing data by columns and vice versa.
@@ -404,6 +416,10 @@ How you choose to represent data not only affects the way your systems are built
 
 ### **3.1. Relational Model**
 
+#SQL
+#Declarative_Language
+#Imperative_Language
+
 We discuss how normalization works and how it can reduce data redundancy and improve data integrity.
 
 For example,
@@ -422,6 +438,8 @@ Popular frameworks for declarative ML are **Ludwig** and **H2O AutoML**.
 
 ### **3.2. NoSQL**
 
+#NoSQL 
+
 NoSQL has been retroactively reinterpreted as "Not Only SQL", as many NoSQL data systems also support relational models. Two major types of nonrelational models are the document model and the graph model.
 
 The document model targets use cases where data comes in self-contained documents and relationships between one document and another are rare. The graph model goes in the opposite direction, targeting use cases where relationships between data items are common and important.
@@ -436,11 +454,14 @@ However, compared to the relational model, it's harder and less efficient to exe
 
 #### Graph Model
 
+#Graph
+
 The graph model is built around the concept of a "graph" which consists of nodes and edges. A database that uses graph structures to store its data is called a graph database. If in document databases, the content of each document is the priority, then in graph databases, the relationships, which is represented by the edges, between data items are the priority.
 
 Because the relationships are modeled explicitly in graph models, it's faster to retrieve data based on relationships.
 
 ### **3.3. Structured vs. Unstructured Data**
+
 
 The key differences between structured and unstructured data
 
@@ -459,6 +480,8 @@ Data formats and data models specify the interface for how users can store and r
 Typically, there are two types of workloads that databases are optimized for, transactional processing and analytical processing, and there's a big difference between them. 
 
 ### **4.1. Transactional and Analytical Processing**
+
+#Transaction
 
 The transactions are inserted as they are generated, and occasionally updated when something changes, or deleted when they are no longer needed. This type of processing is known as *online transaction processing* (OLTP)
 
@@ -487,3 +510,102 @@ However, both the terms OLTP and OLAP have become outdated for three reasons.
 
 ### **4.2. ETL: Extract, Transform, and Load**
 
+#ETL
+#ELT
+#DataWarehouse
+#DataLake
+
+ETL refers to the general purpost processing and aggregating of data into the shape and the format that you want.
+
+Extract is extracting the data you want from all your data sources. In the extracting phase, you need to validate your data and reject the data that doesn't meet your requirements. 
+
+In the transformation phase, you might want to join data from multiple sources and clean it which consists of standardizing the values range and applying operations such as transposing, deduplicating, sorting, etc.
+
+Load is deciding how and how often to load your transformed data into the target destination, which can be a file, a database or a data warehouse.
+
+Finding it difficult to keep data structured, some companies had this idea: Processing of loading data into storage first then processing it later, which is called ELT (extract, load, transform). This paradigm allows for the fast arrival of data since there's little processing needed before is stored. 
+
+However, it's inefficient to search through a massive amount of raw data for the data that you want. At the same time, as companies switch to running applications on the cloud and infrastructures become standardized, data structures also become standardized. Committing data to a predefined schema becomes more feasible. 
+
+Databricks and Snowflake both provide data lakehouse solutions which combine the flexibility of data lake and the data management aspect of data warehouse. 
+
+## **5. Modes of Dataflow**
+
+#Database
+
+In this chapter, we've been discussing the data formats, data models, data storage and processing for data used within the context of a single process. Most of the time, in production, you don't have a single process but multiple. A question arises: how do we pass data between different processes that don't share memory?
+
+When data is passed from one process to another, we say that the data flows from one process to another, which gives us a dataflow. There are three main modes of dataflow:
+
+- Data passing through databases
+- Data passing through services using requests such as the requests provided by REST and RPC APIs (e.g., POST/GET requests)
+- Data passing through a real-time transport like Apache Kafka and Amazon Kinesis
+
+### **5.1. Data Passing Through Databases**
+
+#Database 
+
+The easiest way to pass data between two process is through databases. For example, to pass data from process A to process B, process A can write that data into a database, and process B simply reads from that database.
+
+This mode, however, doesn't always work because of two reasons. First, it requires that both processes must be able to access the same database. This might be infeasible, especially if the two processes are run by two different companies. Second, it requires both processes to access data from databases, and read/write from databases can be slow, making it unsuitable for applications with strict latency requirements - e.g., almost all consumer-facing applications.
+
+
+### **5.2. Data Passing Through Services**
+
+#REST
+#HTTP
+
+One way to pass data between two processes is to send data directly through a network that connects these two processes. To pass data from process B to process A, A first send to request to B that specifies the data A needs, and B returns the requested data through the same network. Because processes communicate through requests, we say that this is *request-driven*
+
+This mode of data passing is tightly coupled with the service-oriented architecture. Two services in communication with each other can be run by different companies in different applications or can be parts of the same application. 
+
+Implementation of a REST architecture are said to be RESTful. Even though many people think of REST as HTTP, REST doesn't exactly mean HTTP because HTTP is just an implementation of REST
+
+### **5.3. Data Passing Through Real-Time Transport**
+
+#Cloud
+
+With three services, e.g., *Drivers management* - Predicts how many drivers will be available in the next minute in a given area, *Ride management* - Predict how many rides will be requested in the next minute in a given area, and *Price optimization* - Predicts the optimal price for each ride, if we pass data through services as discussed in the previous section, each of these services needs to send requests to the other two services. 
+
+```mermaid
+flowchart TD
+	B --> A
+	A[Ride management] --> B[Driver management]
+	C --> A
+	B --> C[Price optimization]
+	A --> C
+	C --> B
+```
+
+What if there's a broker that coordinates data passing among services? Instead of having services request data directly from each other and creating a web of complex interservice data passing, each service only has to communicate with the broker. 
+
+```mermaid
+flowchart LR
+A[Ride management] <--> B[(Broker)]
+C[Driver management] <--> B
+D[Price optimization] <--> B
+```
+
+
+A broker should not be a database because reading and writing from databases, as mentioned in section 5.1, are two slow for applications with strict latency requirements. So, we use in-memory storage to broker data. Real-time transports can be thought of as in-memory storage for data passing among services. 
+
+A piece of data broadcast to a real-time transport is called an event. This architecture is, therefore, also called *event-driven*.
+
+Request-driven architecture works well for systems that rely more on logic than on data. Event-driven architecture works better for systems that are data-heavy.
+
+
+## **6. Batch Processing vs. Stream Processing**
+
+#StreamingData 
+
+Once your data arrives in data storage engines like databases, data lakes, or data warehouses, it becomes historical data. This is opposed to streaming data. Historical data is often processed in batch jobs - jobs that are kicked off periodically. 
+
+When data is processed in batch jobs, we refer to it as *batch processing*. Batch processing has been a research subject for many decades, and companies have come up with distributed systems like MapReduce and Spark to process batch data efficiently.
+
+When you have data in real-time transports like Apache Kafka and Amazon Kinesis, we say that you have streaming data. Computation on streaming data can also be kicked off periodically, but the periods are usually much shorter than the periods for batch jobs. 
+
+In ML, batch processing is usually used to compute features that change less often, such as drivers' rating. *Batch-features* - features extracted through batch processing - are also known as *static features*
+
+Stream processing is used to compute features that change quickly, such as how many drivers are available right now, etc. Features about the current state of the system like these are important to make the optimal price predictions. Streaming features - features extracted through stream processing - are also known as *dynamic features*.
+
+# Chapter 4: Training Data
