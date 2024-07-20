@@ -609,3 +609,101 @@ In ML, batch processing is usually used to compute features that change less oft
 Stream processing is used to compute features that change quickly, such as how many drivers are available right now, etc. Features about the current state of the system like these are important to make the optimal price predictions. Streaming features - features extracted through stream processing - are also known as *dynamic features*.
 
 # Chapter 4: Training Data
+
+In this chapter, we will go over techniques to obtain or create good training data. Training data, in this chapter, encompasses all the data used in the developing phase of ML models, including the different split used for training, validation, and testing.
+
+We'll then address common challenges in creating training data, including the label multiplicity problem, the lack of labels problem, the class imbalance problem, and techniques in data augmentation to address the lack of data problem. 
+
+Data is full of potential biases. These biases have many possible causes. There are biases caused during collecting, sampling or labeling. Historical data might be embedded with human biases, and Ml models, trained on this data, can perpetuate them. Use data but don't trust it too much!
+
+## **1. Sampling**
+
+Sampling is an integral part (phần ko thể thiếu) of the ML workflow that is, unfortunately, often overlooked in typical ML coursework. Sampling happens in many steps of an ML project lifecycle, such as sampling from all possible real-world data to create training data. 
+
+In many cases, sampling is necessary. One case is when you don't have access to all possible data in the real world, the data that you use to train your model is a subset of real-world data, created by one sampling method or another. Another case is when it's infeasible to process all the data that you have access to - because it requires too much time and resources - so you have to sample that data to create a subset that is feasible to process. In many cases, sampling is helpful as it allows you to accomplish a task faster and cheaper. For example, when considering a new model, you might want to do a quick experiment with a small subset of your data to see if the new model is promising first before training this new model on all your data.
+
+Understanding different sampling methods and how they are being used in our workflow can, first, help us avoid potential sampling biases, and second, help us choose the methods that improve the efficiency of the data we sample. 
+
+There are two families of sampling: non-probability sampling and random sampling. 
+
+### **1.1. Non-probability Sampling**
+
+Non-probability sampling is when the selection of data is not based on any probability criteria. Here are some of the criteria for non-probability sampling:
+
+*Convenience sampling*
+	Samples of data are selected based on their availability. This sampling method is popular because, well, it's convenient. 
+
+*Snowball sampling*
+	Future samples are selected based on existing samples. For example, to scrape legitimate Twitter accounts without having access to Twitter databases, you start with a small number of accounts, then you scrape all the accounts they follow, and so on
+
+*Judgment sampling*
+	Experts decide what samples to include
+
+*Quota sampling*
+	You select samples based on quotas for certain slices of data without any randomization. For example, when doing a survey, you might want 100 responses from each of the age groups: under 30 years old, between 30 and 60 years old, and above 60 years old, regardless of the actual age distribution.
+
+
+Non-probability sampling can be a quick and easy way to gather your initial data to
+get your project off the ground. However, for reliable models, you might want to use probability-based sampling
+
+### **1.2. Simple Random Sampling**
+
+In the simplest form of random sampling, you give all samples in the population equal probabilities of being selected. For example, you randomly select 10% of the population, giving all members of this population an equal 10% chance of being selected. 
+
+The advantage of this method is that it's easy to implement. The drawback is that rare categories of data might not appear in your selection. Consider the case where a class appears only in 0.01% of your data population. If you randomly select 1% of your data, samples of this rare class will unlikely be selected. Models trained on this selection might think that this rare class doesn't exist.
+
+
+### **1.3. Stratified Sampling**
+
+To avoid the drawback of simple random sampling, you can first divide your population into the groups that you care about and sample from each group separately. For example, to sample 1% of data that has two classes, A and B, you can sample 1% of class A and 1% of class B. This way you'll ensure that samples from it will be included in the selection. 
+
+Each group is called a stratum, and this method is called stratified sampling.
+
+One drawback of this sampling method is that it is not always possible, such as when it's impossible to divide all samples into groups. This is especially challenging when one sample might belong to multiple groups, as in the case of multilabel tasks
+
+
+### **1.4. Weighted Sampling**
+
+In weighted sampling, each sample is given a weight, which determines the probability of it being selected. 
+
+This method allows you to leverage domain expertise. 
+
+This also helps with the case when the data you have comes from a different distribution compared to the true data. For example, if in your data, red samples for 25% and blue samples for 75%, but you know that in the real world, red and blue have equal probability to happen, you can give red samples weights three times higher than blue samples.
+
+In Python, you can do weighted sampling with `random.choices`
+
+```Python
+import random
+random.choices(population=[1, 2, 3, 4, 100, 1000],
+			   weights=[0.2, 0.2, 0.2, 0.2, 0.1, 0.1],
+			   k=2)
+```
+
+
+### **1.5. Reservoir Sampling**
+
+Reservoir sampling is a fascinating algorithm that is especially useful when you have to deal with streaming data, which is usually what you have in production.
+
+Imagine you have an incoming stream of tweets and you want to sample a certain number, *k*, of tweets to do analysis or train a model on. You don't know how many tweets there are, but you know you can't fit them all in memory, which means you don't know in advance the probability at which a tweet should be selected. You want to ensure that:
+
+- Every tweet has an equal probability of being selected.
+- You can stop the algorithm at any time and the tweets are sampled with the correct probability.
+
+One solution for this problem is reservoir sampling. The algorithm involves a reser‐
+voir, which can be an array, and consists of three steps:
+
+1. Put the first *k* elements into the reservoir
+2. For each incoming $n^{th}$ element, generate a random number $i$ such that $1 \leq i \leq n$.
+3. If $1 \leq i \leq k$: replace the $i^{th}$ element in the reservoir with the $n^{th}$ element. Else, do nothing
+
+
+### **1.6. Importance Sampling**
+
+Importance sampling is one of the most important sampling methods, not just in ML. It allows us to sample from a distribution when we only have access to another distribution. 
+
+Imaging you have to sample $x$ from a distribution $P(x)$, but $P(x)$ is really expensive, slow, or infeasible to sample from. However, you have a distribution $Q(x)$ that is a lot easier to sample from. So you sample $x$ from $Q(x)$ instead and weigh this sample by $P(x) / Q(x)$ 
+
+$Q(x)$ is called the *proposal distribution* or the *importance distribution*. $Q(x)$ can be any distribution as long as $Q(x) > 0$ whenever $P(x) \ne 0$ 
+
+*One example where importance sampling is used in ML is policy-based reinforcement learning. Consider the case when you want to update your policy. You want to estimate the value functions of the new policy, but calculating the total rewards of taking an action can be costly because it requires considering all possible outcomes until the end of the time horizon after that action. However, if the new policy is relatively close to the old policy, you can calculate the total rewards based on the old policy instead and reweigh them according to the new policy. The rewards from the old policy make up the proposal distribution*
+
