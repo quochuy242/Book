@@ -163,7 +163,7 @@ For now, getting these large models into production, especially on edge devices 
 
 ## **1. Business and ML Objectives**
 
-#Metrics 
+#Metrics
 
 When working on a ML project, DS tend to care about the ML objectives: the metrics thay can measure about the performance of their ML models such as accuracy, F1-Score, inference latency, etc.
 
@@ -216,7 +216,7 @@ To adapt to shifting data distributions and business requirements, the sys shoul
 
 # **3. Iterative Process**
 
-#Deployment 
+#Deployment
 #DataEngineering
 
 Developing an MLs is an iterative and, in most cases, never-ending process. One a sys is put into production, it'll need to be continually monitored and updated.
@@ -293,7 +293,6 @@ The second approach is to turn it into a set of binary cls problems. For the art
 
 ## **4.2. Objective Functions**
 
-
 To learn, an ML model needs an objective function to guide the learning process.
 An objective function is also called a loss function, because the objective of the learning process is usually to minimize (or optimize) the loss caused by wrong predictions.
 
@@ -327,7 +326,7 @@ No one can deny that data is essential, for now. Both the research and industry 
 
 # Chapter 3: Data Engineering Fundamentals
 
-#DataEngineering 
+#DataEngineering
 #StreamingData
 
 The rise of ML in recent years is tightly coupled with the rise of big data.
@@ -438,7 +437,7 @@ Popular frameworks for declarative ML are **Ludwig** and **H2O AutoML**.
 
 ### **3.2. NoSQL**
 
-#NoSQL 
+#NoSQL
 
 NoSQL has been retroactively reinterpreted as "Not Only SQL", as many NoSQL data systems also support relational models. Two major types of nonrelational models are the document model and the graph model.
 
@@ -462,7 +461,6 @@ Because the relationships are modeled explicitly in graph models, it's faster to
 
 ### **3.3. Structured vs. Unstructured Data**
 
-
 The key differences between structured and unstructured data
 
 | Structured data                             | Unstructured data                                                                                                      |
@@ -477,33 +475,34 @@ The key differences between structured and unstructured data
 
 Data formats and data models specify the interface for how users can store and retrieve data. Storage engines, also known as databases, are the implementation of how data is stored and retrieved on machines.
 
-Typically, there are two types of workloads that databases are optimized for, transactional processing and analytical processing, and there's a big difference between them. 
+Typically, there are two types of workloads that databases are optimized for, transactional processing and analytical processing, and there's a big difference between them.
 
 ### **4.1. Transactional and Analytical Processing**
 
 #Transaction
 
-The transactions are inserted as they are generated, and occasionally updated when something changes, or deleted when they are no longer needed. This type of processing is known as *online transaction processing* (OLTP)
+The transactions are inserted as they are generated, and occasionally updated when something changes, or deleted when they are no longer needed. This type of processing is known as _online transaction processing_ (OLTP)
 
 Because these transactions often involve users, they need to be processed fast (low latency) so that they don't keep users waiting. The processing method needs to have high availability - that is, the processing system need to be available any time a user wants to make a transaction.
 
-Transactional databases are designed to process online transactions and satisfy the low latency, high available requirements. When people hear transactional databases, they usually think of ACID (atomicity, consistency, islation, durability). 
+Transactional databases are designed to process online transactions and satisfy the low latency, high available requirements. When people hear transactional databases, they usually think of ACID (atomicity, consistency, islation, durability).
 
-*Atomicity*
-	To guarantee that all the steps in a transaction are completed successfully as a group. If any step in the transaction fails, all other steps must fail also. 
+_Atomicity_
+To guarantee that all the steps in a transaction are completed successfully as a group. If any step in the transaction fails, all other steps must fail also.
 
-*Consistency*
-	To guarantee that all the transactions coming through must follow predefined rules. For example, a transaction must be made by a valid user.
+_Consistency_
+To guarantee that all the transactions coming through must follow predefined rules. For example, a transaction must be made by a valid user.
 
-*Isolation*
-	To guarantee that two transactions happen at the same time as if they were isolated. Two users accessing the same data won't change it at the same time. For example, you don't want two users to book the same driver at the same time.  
+_Isolation_
+To guarantee that two transactions happen at the same time as if they were isolated. Two users accessing the same data won't change it at the same time. For example, you don't want two users to book the same driver at the same time.
 
-*Durability*
-	To guarantee that once a transaction has been committed, it will remain committed even in the case of a sys failure. For example, after you've ordered a ride and your phone dies, you still want your ride to come. 
+_Durability_
+To guarantee that once a transaction has been committed, it will remain committed even in the case of a sys failure. For example, after you've ordered a ride and your phone dies, you still want your ride to come.
 
-Because each transaction is often processed as a unit separately from other transactions, transactional databases are often row-major. Analytical databases are designed for the purpose which requires aggregating data in columns across multiple rows of data. They are efficient with queries that allow you to look at data from different viewpoints. We call this type of processing *online analytical processing* (OLAP)
+Because each transaction is often processed as a unit separately from other transactions, transactional databases are often row-major. Analytical databases are designed for the purpose which requires aggregating data in columns across multiple rows of data. They are efficient with queries that allow you to look at data from different viewpoints. We call this type of processing _online analytical processing_ (OLAP)
 
-However, both the terms OLTP and OLAP have become outdated for three reasons. 
+However, both the terms OLTP and OLAP have become outdated for three reasons.
+
 1. The separation of transactional and analytical databases was due to limitations of technology - it was hard to have databases that could handle both transactional and analytical queries efficiently. Today, we have transactional databases that can handle analytical queries, such as **CockroachDB**. We also have analytical databases that can handle transactional queries, such as **Apache Iceberg** and **DuckDB**
 2. In the traditional OLTP & OLAP paradigms, storage and processing are tightly coupled - how data is stored is also how data is processed. In the last decade, paradigm has been to decouple storage from processing (also known as compute), as adopted by many data vendors including Google's BigQuery, Snowflake, IBM, and Teradata. In this paradigm, the data can be stored in the same place, with a processing layer on top that can be optimized for different types of queries.
 3. "Online" has become an overloaded term that can mean many different things Online used to just mean "connect to the internet". Then, it grew to also mean "in production" - we say a feature is online after that feature has been deployed in production.
@@ -517,17 +516,17 @@ However, both the terms OLTP and OLAP have become outdated for three reasons.
 
 ETL refers to the general purpost processing and aggregating of data into the shape and the format that you want.
 
-Extract is extracting the data you want from all your data sources. In the extracting phase, you need to validate your data and reject the data that doesn't meet your requirements. 
+Extract is extracting the data you want from all your data sources. In the extracting phase, you need to validate your data and reject the data that doesn't meet your requirements.
 
 In the transformation phase, you might want to join data from multiple sources and clean it which consists of standardizing the values range and applying operations such as transposing, deduplicating, sorting, etc.
 
 Load is deciding how and how often to load your transformed data into the target destination, which can be a file, a database or a data warehouse.
 
-Finding it difficult to keep data structured, some companies had this idea: Processing of loading data into storage first then processing it later, which is called ELT (extract, load, transform). This paradigm allows for the fast arrival of data since there's little processing needed before is stored. 
+Finding it difficult to keep data structured, some companies had this idea: Processing of loading data into storage first then processing it later, which is called ELT (extract, load, transform). This paradigm allows for the fast arrival of data since there's little processing needed before is stored.
 
-However, it's inefficient to search through a massive amount of raw data for the data that you want. At the same time, as companies switch to running applications on the cloud and infrastructures become standardized, data structures also become standardized. Committing data to a predefined schema becomes more feasible. 
+However, it's inefficient to search through a massive amount of raw data for the data that you want. At the same time, as companies switch to running applications on the cloud and infrastructures become standardized, data structures also become standardized. Committing data to a predefined schema becomes more feasible.
 
-Databricks and Snowflake both provide data lakehouse solutions which combine the flexibility of data lake and the data management aspect of data warehouse. 
+Databricks and Snowflake both provide data lakehouse solutions which combine the flexibility of data lake and the data management aspect of data warehouse.
 
 ## **5. Modes of Dataflow**
 
@@ -543,21 +542,20 @@ When data is passed from one process to another, we say that the data flows from
 
 ### **5.1. Data Passing Through Databases**
 
-#Database 
+#Database
 
 The easiest way to pass data between two process is through databases. For example, to pass data from process A to process B, process A can write that data into a database, and process B simply reads from that database.
 
 This mode, however, doesn't always work because of two reasons. First, it requires that both processes must be able to access the same database. This might be infeasible, especially if the two processes are run by two different companies. Second, it requires both processes to access data from databases, and read/write from databases can be slow, making it unsuitable for applications with strict latency requirements - e.g., almost all consumer-facing applications.
-
 
 ### **5.2. Data Passing Through Services**
 
 #REST
 #HTTP
 
-One way to pass data between two processes is to send data directly through a network that connects these two processes. To pass data from process B to process A, A first send to request to B that specifies the data A needs, and B returns the requested data through the same network. Because processes communicate through requests, we say that this is *request-driven*
+One way to pass data between two processes is to send data directly through a network that connects these two processes. To pass data from process B to process A, A first send to request to B that specifies the data A needs, and B returns the requested data through the same network. Because processes communicate through requests, we say that this is _request-driven_
 
-This mode of data passing is tightly coupled with the service-oriented architecture. Two services in communication with each other can be run by different companies in different applications or can be parts of the same application. 
+This mode of data passing is tightly coupled with the service-oriented architecture. Two services in communication with each other can be run by different companies in different applications or can be parts of the same application.
 
 Implementation of a REST architecture are said to be RESTful. Even though many people think of REST as HTTP, REST doesn't exactly mean HTTP because HTTP is just an implementation of REST
 
@@ -565,7 +563,7 @@ Implementation of a REST architecture are said to be RESTful. Even though many p
 
 #Cloud
 
-With three services, e.g., *Drivers management* - Predicts how many drivers will be available in the next minute in a given area, *Ride management* - Predict how many rides will be requested in the next minute in a given area, and *Price optimization* - Predicts the optimal price for each ride, if we pass data through services as discussed in the previous section, each of these services needs to send requests to the other two services. 
+With three services, e.g., _Drivers management_ - Predicts how many drivers will be available in the next minute in a given area, _Ride management_ - Predict how many rides will be requested in the next minute in a given area, and _Price optimization_ - Predicts the optimal price for each ride, if we pass data through services as discussed in the previous section, each of these services needs to send requests to the other two services.
 
 ```mermaid
 flowchart TD
@@ -577,7 +575,7 @@ flowchart TD
 	C --> B
 ```
 
-What if there's a broker that coordinates data passing among services? Instead of having services request data directly from each other and creating a web of complex interservice data passing, each service only has to communicate with the broker. 
+What if there's a broker that coordinates data passing among services? Instead of having services request data directly from each other and creating a web of complex interservice data passing, each service only has to communicate with the broker.
 
 ```mermaid
 flowchart LR
@@ -586,87 +584,84 @@ C[Driver management] <--> B
 D[Price optimization] <--> B
 ```
 
+A broker should not be a database because reading and writing from databases, as mentioned in section 5.1, are two slow for applications with strict latency requirements. So, we use in-memory storage to broker data. Real-time transports can be thought of as in-memory storage for data passing among services.
 
-A broker should not be a database because reading and writing from databases, as mentioned in section 5.1, are two slow for applications with strict latency requirements. So, we use in-memory storage to broker data. Real-time transports can be thought of as in-memory storage for data passing among services. 
-
-A piece of data broadcast to a real-time transport is called an event. This architecture is, therefore, also called *event-driven*.
+A piece of data broadcast to a real-time transport is called an event. This architecture is, therefore, also called _event-driven_.
 
 Request-driven architecture works well for systems that rely more on logic than on data. Event-driven architecture works better for systems that are data-heavy.
 
-
 ## **6. Batch Processing vs. Stream Processing**
 
-#StreamingData 
+#StreamingData
 
-Once your data arrives in data storage engines like databases, data lakes, or data warehouses, it becomes historical data. This is opposed to streaming data. Historical data is often processed in batch jobs - jobs that are kicked off periodically. 
+Once your data arrives in data storage engines like databases, data lakes, or data warehouses, it becomes historical data. This is opposed to streaming data. Historical data is often processed in batch jobs - jobs that are kicked off periodically.
 
-When data is processed in batch jobs, we refer to it as *batch processing*. Batch processing has been a research subject for many decades, and companies have come up with distributed systems like MapReduce and Spark to process batch data efficiently.
+When data is processed in batch jobs, we refer to it as _batch processing_. Batch processing has been a research subject for many decades, and companies have come up with distributed systems like MapReduce and Spark to process batch data efficiently.
 
-When you have data in real-time transports like Apache Kafka and Amazon Kinesis, we say that you have streaming data. Computation on streaming data can also be kicked off periodically, but the periods are usually much shorter than the periods for batch jobs. 
+When you have data in real-time transports like Apache Kafka and Amazon Kinesis, we say that you have streaming data. Computation on streaming data can also be kicked off periodically, but the periods are usually much shorter than the periods for batch jobs.
 
-In ML, batch processing is usually used to compute features that change less often, such as drivers' rating. *Batch-features* - features extracted through batch processing - are also known as *static features*
+In ML, batch processing is usually used to compute features that change less often, such as drivers' rating. _Batch-features_ - features extracted through batch processing - are also known as _static features_
 
-Stream processing is used to compute features that change quickly, such as how many drivers are available right now, etc. Features about the current state of the system like these are important to make the optimal price predictions. Streaming features - features extracted through stream processing - are also known as *dynamic features*.
+Stream processing is used to compute features that change quickly, such as how many drivers are available right now, etc. Features about the current state of the system like these are important to make the optimal price predictions. Streaming features - features extracted through stream processing - are also known as _dynamic features_.
 
 # Chapter 4: Training Data
 
 In this chapter, we will go over techniques to obtain or create good training data. Training data, in this chapter, encompasses all the data used in the developing phase of ML models, including the different split used for training, validation, and testing.
 
-We'll then address common challenges in creating training data, including the label multiplicity problem, the lack of labels problem, the class imbalance problem, and techniques in data augmentation to address the lack of data problem. 
+We'll then address common challenges in creating training data, including the label multiplicity problem, the lack of labels problem, the class imbalance problem, and techniques in data augmentation to address the lack of data problem.
 
 Data is full of potential biases. These biases have many possible causes. There are biases caused during collecting, sampling or labeling. Historical data might be embedded with human biases, and Ml models, trained on this data, can perpetuate them. Use data but don't trust it too much!
 
 ## **1. Sampling**
 
-Sampling is an integral part (phần ko thể thiếu) of the ML workflow that is, unfortunately, often overlooked in typical ML coursework. Sampling happens in many steps of an ML project lifecycle, such as sampling from all possible real-world data to create training data. 
+#DataSampling
+
+Sampling is an integral part (phần ko thể thiếu) of the ML workflow that is, unfortunately, often overlooked in typical ML coursework. Sampling happens in many steps of an ML project lifecycle, such as sampling from all possible real-world data to create training data.
 
 In many cases, sampling is necessary. One case is when you don't have access to all possible data in the real world, the data that you use to train your model is a subset of real-world data, created by one sampling method or another. Another case is when it's infeasible to process all the data that you have access to - because it requires too much time and resources - so you have to sample that data to create a subset that is feasible to process. In many cases, sampling is helpful as it allows you to accomplish a task faster and cheaper. For example, when considering a new model, you might want to do a quick experiment with a small subset of your data to see if the new model is promising first before training this new model on all your data.
 
-Understanding different sampling methods and how they are being used in our workflow can, first, help us avoid potential sampling biases, and second, help us choose the methods that improve the efficiency of the data we sample. 
+Understanding different sampling methods and how they are being used in our workflow can, first, help us avoid potential sampling biases, and second, help us choose the methods that improve the efficiency of the data we sample.
 
-There are two families of sampling: non-probability sampling and random sampling. 
+There are two families of sampling: non-probability sampling and random sampling.
 
 ### **1.1. Non-probability Sampling**
 
 Non-probability sampling is when the selection of data is not based on any probability criteria. Here are some of the criteria for non-probability sampling:
 
-*Convenience sampling*
-	Samples of data are selected based on their availability. This sampling method is popular because, well, it's convenient. 
+_Convenience sampling_
+Samples of data are selected based on their availability. This sampling method is popular because, well, it's convenient.
 
-*Snowball sampling*
-	Future samples are selected based on existing samples. For example, to scrape legitimate Twitter accounts without having access to Twitter databases, you start with a small number of accounts, then you scrape all the accounts they follow, and so on
+_Snowball sampling_
+Future samples are selected based on existing samples. For example, to scrape legitimate Twitter accounts without having access to Twitter databases, you start with a small number of accounts, then you scrape all the accounts they follow, and so on
 
-*Judgment sampling*
-	Experts decide what samples to include
+_Judgment sampling_
+Experts decide what samples to include
 
-*Quota sampling*
-	You select samples based on quotas for certain slices of data without any randomization. For example, when doing a survey, you might want 100 responses from each of the age groups: under 30 years old, between 30 and 60 years old, and above 60 years old, regardless of the actual age distribution.
-
+_Quota sampling_
+You select samples based on quotas for certain slices of data without any randomization. For example, when doing a survey, you might want 100 responses from each of the age groups: under 30 years old, between 30 and 60 years old, and above 60 years old, regardless of the actual age distribution.
 
 Non-probability sampling can be a quick and easy way to gather your initial data to
 get your project off the ground. However, for reliable models, you might want to use probability-based sampling
 
 ### **1.2. Simple Random Sampling**
 
-In the simplest form of random sampling, you give all samples in the population equal probabilities of being selected. For example, you randomly select 10% of the population, giving all members of this population an equal 10% chance of being selected. 
+In the simplest form of random sampling, you give all samples in the population equal probabilities of being selected. For example, you randomly select 10% of the population, giving all members of this population an equal 10% chance of being selected.
 
 The advantage of this method is that it's easy to implement. The drawback is that rare categories of data might not appear in your selection. Consider the case where a class appears only in 0.01% of your data population. If you randomly select 1% of your data, samples of this rare class will unlikely be selected. Models trained on this selection might think that this rare class doesn't exist.
 
-
 ### **1.3. Stratified Sampling**
 
-To avoid the drawback of simple random sampling, you can first divide your population into the groups that you care about and sample from each group separately. For example, to sample 1% of data that has two classes, A and B, you can sample 1% of class A and 1% of class B. This way you'll ensure that samples from it will be included in the selection. 
+To avoid the drawback of simple random sampling, you can first divide your population into the groups that you care about and sample from each group separately. For example, to sample 1% of data that has two classes, A and B, you can sample 1% of class A and 1% of class B. This way you'll ensure that samples from it will be included in the selection.
 
 Each group is called a stratum, and this method is called stratified sampling.
 
 One drawback of this sampling method is that it is not always possible, such as when it's impossible to divide all samples into groups. This is especially challenging when one sample might belong to multiple groups, as in the case of multilabel tasks
 
-
 ### **1.4. Weighted Sampling**
 
-In weighted sampling, each sample is given a weight, which determines the probability of it being selected. 
+In weighted sampling, each sample is given a weight, which determines the probability of it being selected.
 
-This method allows you to leverage domain expertise. 
+This method allows you to leverage domain expertise.
 
 This also helps with the case when the data you have comes from a different distribution compared to the true data. For example, if in your data, red samples for 25% and blue samples for 75%, but you know that in the real world, red and blue have equal probability to happen, you can give red samples weights three times higher than blue samples.
 
@@ -679,12 +674,13 @@ random.choices(population=[1, 2, 3, 4, 100, 1000],
 			   k=2)
 ```
 
-
 ### **1.5. Reservoir Sampling**
+
+#StreamingData 
 
 Reservoir sampling is a fascinating algorithm that is especially useful when you have to deal with streaming data, which is usually what you have in production.
 
-Imagine you have an incoming stream of tweets and you want to sample a certain number, *k*, of tweets to do analysis or train a model on. You don't know how many tweets there are, but you know you can't fit them all in memory, which means you don't know in advance the probability at which a tweet should be selected. You want to ensure that:
+Imagine you have an incoming stream of tweets and you want to sample a certain number, _k_, of tweets to do analysis or train a model on. You don't know how many tweets there are, but you know you can't fit them all in memory, which means you don't know in advance the probability at which a tweet should be selected. You want to ensure that:
 
 - Every tweet has an equal probability of being selected.
 - You can stop the algorithm at any time and the tweets are sampled with the correct probability.
@@ -692,18 +688,80 @@ Imagine you have an incoming stream of tweets and you want to sample a certain n
 One solution for this problem is reservoir sampling. The algorithm involves a reser‐
 voir, which can be an array, and consists of three steps:
 
-1. Put the first *k* elements into the reservoir
+1. Put the first _k_ elements into the reservoir
 2. For each incoming $n^{th}$ element, generate a random number $i$ such that $1 \leq i \leq n$.
 3. If $1 \leq i \leq k$: replace the $i^{th}$ element in the reservoir with the $n^{th}$ element. Else, do nothing
 
-
 ### **1.6. Importance Sampling**
 
-Importance sampling is one of the most important sampling methods, not just in ML. It allows us to sample from a distribution when we only have access to another distribution. 
+#ImportanceSampling
 
-Imaging you have to sample $x$ from a distribution $P(x)$, but $P(x)$ is really expensive, slow, or infeasible to sample from. However, you have a distribution $Q(x)$ that is a lot easier to sample from. So you sample $x$ from $Q(x)$ instead and weigh this sample by $P(x) / Q(x)$ 
+Importance sampling is one of the most important sampling methods, not just in ML. It allows us to sample from a distribution when we only have access to another distribution.
 
-$Q(x)$ is called the *proposal distribution* or the *importance distribution*. $Q(x)$ can be any distribution as long as $Q(x) > 0$ whenever $P(x) \ne 0$ 
+Imaging you have to sample $x$ from a distribution $P(x)$, but $P(x)$ is really expensive, slow, or infeasible to sample from. However, you have a distribution $Q(x)$ that is a lot easier to sample from. So you sample $x$ from $Q(x)$ instead and weigh this sample by $P(x) / Q(x)$
 
-*One example where importance sampling is used in ML is policy-based reinforcement learning. Consider the case when you want to update your policy. You want to estimate the value functions of the new policy, but calculating the total rewards of taking an action can be costly because it requires considering all possible outcomes until the end of the time horizon after that action. However, if the new policy is relatively close to the old policy, you can calculate the total rewards based on the old policy instead and reweigh them according to the new policy. The rewards from the old policy make up the proposal distribution*
+$Q(x)$ is called the _proposal distribution_ or the _importance distribution_. $Q(x)$ can be any distribution as long as $Q(x) > 0$ whenever $P(x) \ne 0$
 
+_One example where importance sampling is used in ML is policy-based reinforcement learning. Consider the case when you want to update your policy. You want to estimate the value functions of the new policy, but calculating the total rewards of taking an action can be costly because it requires considering all possible outcomes until the end of the time horizon after that action. However, if the new policy is relatively close to the old policy, you can calculate the total rewards based on the old policy instead and reweigh them according to the new policy. The rewards from the old policy make up the proposal distribution_
+
+## **2. Labeling**
+
+#Labeling
+
+Despite the promise of unsupervised ML, most ML models in production today are supervised, which means that they need labeled data to learn from. The performance of an ML model still depends heavily on the quality and quantity of labeled data it's trained on.
+
+### **2.1. Hand Labels**
+
+First, hand-labeling data can be expensive, especially if subject matter expertise is required. To classify whether a comment is spam, you might be able to find 20 annotators on a crowd-sourcing platform and train them in 15 minutes to label your data. However, if you want to label chest X-rays, you would need to find board-certified radiologists, whose time is limited and expensive.
+
+Second, hand labeling poses a threat to data privacy. Hand labeling means that someone has to look at your data, which is not always possible if your data has strict privacy requirements. 
+
+Third, hand labeling is slow. For example, accurate transcription of speech utterance at the phonetic level can take 400 times longer than the utterance duration. So if you want to annotate 1 hour of speech, it'll take 400 hours or almost 3 months for a person to do so. 
+
+Slow labeling leads to slow iteration speed and makes your model less adaptive to changing environments and requirements. If the task changes or data changes, you'll have to wait for your data to be relabeled before updating your model. 
+
+#### **Label multiplicity**
+
+Often, to obtain enough labeled data, companies have to use data from multiple sources and rely on multiple annotators who have different levels of expertise. These different data sources and annotators also have different levels of accuracy. This leads to the problem of label ambiguity or label multiplicity: what to do when there are multiple conflicting labels for a data instance. 
+
+Disagreements among annotators are extremely common. The higher the level of domain expertise required, the higher the potential for annotating disagreement. 
+
+To minimize the disagreement among annotators, it's important to first have a clear problem definition. Second, you need to incorporate that definition into the annotators' training to make sure that all annotators understand the rules. 
+
+#### **Data lineage**
+
+Indiscriminately using data from multiple sources, generated with different annotators, without examining their quality can cause your model to fail mysteriously. 
+
+It's good practice to keep track of the origin of each of your data samples as well as its labels, a technique known as *data lineage*. Data lineage helps you both flag potential biases in your data and debug your models. 
+
+
+### **2.2. Natural Labels**
+
+Tasks with natural labels are tasks where the model's predictions can be automatically evaluated or partially evaluated by the system. An example is stock price prediction. If your model predicts a stock's price in the next two minutes, then after two minutes, you can compare the predicted price with the actual price.
+
+The canonical example of tasks with natural labels is recommender systems. The goal of a recommender system is to recommend to users items relevant to them. Whether a user clicks on the recommended item or not can be seen as the feedback for that recommendation. 
+
+Many tasks can be framed as recommendation tasks. For example, you can frame the task of predicting ads' click-through rates as recommending the most relevant ads to users based on their activity histories and profiles. 
+
+Even if your task doesn't inherently have natural labels, it might be possible to set up your sys in a way that allows you to collect some feedback on your model. 
+
+
+### **2.3. Handling the Lack of Labels**
+
+Table: Summaries of four techniques for handling the lack of hand-labeled data
+
+| Method            | How                                                           | Ground truths required?                                                                                                                                                            |
+| ----------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Weak supervision  | Leverages (often noisy) heuristics to generate labels         | No, but a small number of labels are recommended to guide the development of heuristics                                                                                            |
+| Semi-supervision  | Leverages structural assumptions to generate labels           | Yes, a small number of initial labels as seeds to generate more labels                                                                                                             |
+| Transfer learning | Leverages models pretrained on another task for your new task | No for zero-shot learning<br>Yes for fine-tuning, thought the number of ground truths required is often much smaller than what would be needed if you train the model from scratch |
+| Active learning   | Labels data samples that are most useful to your model        | Yes                                                                                                                                                                                |
+
+
+#### **Weak supervision**
+
+#WeakSupervision
+
+If hand labeling is so problematic, what if we don't use hand labels altogether? One approach that has gained popularity is weak supervision. One of the most popular open source tools for weak supervision is *Snorkel*, developed at the Stanford AI Lab. 
+
+The insight behind weak supervision is that people rely on heuristics, which can be developed with subject matter expertise, to label data. 
