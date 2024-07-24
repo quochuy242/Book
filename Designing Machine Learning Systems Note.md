@@ -1,4 +1,4 @@
-# Word Stand For
+[# Word Stand For
 
 **_ML_**: Machine Learning
 **_MLs_**: Machine Learning Systems
@@ -764,4 +764,30 @@ Table: Summaries of four techniques for handling the lack of hand-labeled data
 
 If hand labeling is so problematic, what if we don't use hand labels altogether? One approach that has gained popularity is weak supervision. One of the most popular open source tools for weak supervision is *Snorkel*, developed at the Stanford AI Lab. 
 
-The insight behind weak supervision is that people rely on heuristics, which can be developed with subject matter expertise, to label data. 
+The insight behind weak supervision is that people rely on heuristics, which can be developed with subject matter expertise, to label data. For example, a doctor might use the following heuristics to decide whether a patient's case should prioritized as emergent
+
+Libraries like Snorkel are built around the concept of a *labeling function* (LF): a function that encodes heuristics. 
+
+LFs can encode many different types of heuristics. Here are some of them:
+*Keyword heuristic, Regular expressions, Database lookup, The outputs of other models*. After you've written LFs, you can apply them to the samples you want to label.
+
+Because LFs encode heuristics, and heuristics are noisy, labels produced by LFs are noisy. Multiple LFs might apply to the same data samples, and they might give conflicting labels. One heuristics might be much more accurate than another heuristics, which you might not know because you don't have ground truth labels to compare them to. 
+
+In theory, you don't need any hand labels for weak supervision. However, to get a sense of how accurate your LFs are, a small number of hand labels is recommended. These hand labels can help you discover pattern in your data to write better LFs.
+
+Weak supervision can be especially useful when your data has strict privacy requirements. You only need to see a small, cleared subset of data to write LFs, which can be applied to the rest of your data without anyone looking at it.
+
+With LFs, subject expertise can be visioned, reused and shared. Expertise owned by one team can be encoded and used by another team. If your data changes or your requirements change, you can just reapply LFs to your data samples. The approach of using LFs to generate labels for your data is also known as programmatic labeling.
+
+| Hand Labeling                                                        | Programmatic labeling                                                                                                         |
+| -------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| **Expensive**: Especially when subject matter expertise required     | **Cost Saving**: Expertise can be visioned, shared, and reused across an organization                                         |
+| **Lack of privacy**: Need to ship data to human annotators           | **Privacy**: Create LFs using a cleared data subsample and then apply LFs to other data without looking at individual samples |
+| **Slow**: Time required scales linearly with number of labels needed | **Fast**: Easily scale from 1K to 1M samples                                                                                  |
+| **Non-adaptive**: every change requires relabeling the data          | **Adaptive**: When changes happen, just reapply LFs                                                                           |
+
+If heuristic work so well to label data, why do we need ML models? One reason is that LFs might not cover all data samples, so we can train ML models on data programmatically labeled with LFs and use this trained model to generate predictions for samples that aren't covered by any LF.
+
+
+#### **Semi-supervision**
+
