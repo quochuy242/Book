@@ -791,3 +791,46 @@ If heuristic work so well to label data, why do we need ML models? One reason is
 
 #### **Semi-supervision**
 
+If weak supervision leverages heuristics to obtain noisy labels, semi-supervision leverages structural assumptions to generate new labels based on a small set of initial labels. Unlike weak supervision, semi-supervision requires an initial set of labels.
+
+Semi-supervised learning is a technique that was used back in the 90s, and since then many semi-supervision methods have been developed. A comprehensive review of semi-supervised learning is out of the scope of this book. We'll go over a small subset of these methods to give readers a sense of how they are used. 
+
+A classic semi-supervision method is *self-training*. You start by training a model on your existing set of labeled data and use this method to make prediction for unlabeled samples. Assuming that predictions with high raw probability scores are correct, you add the labels predicted with high probability to your training set and train a new model on this expanded training set. 
+
+A semi-supervision method that has gained popularity in recent years is the perturbation-based method. It's based on the assumption that small perturbations to a sample shouldn't change its label. So you apply small perturbations to your training instances to obtain new training instances. The perturbations might be applied directly to the samples (e.g., adding white noise to images) or to their representations (e.g., adding small random values to embeddings of words). The perturbed samples have the same labels as the unperturbed samples. 
+
+Semi-supervision is the most useful when the number of training labels is limited. One thing to consider when doing semi-supervision with limited data is how much of this limited data should be used to evaluate multiple candidate models and select the best one. If you use a small amount, the best performing model on this small evaluation set might be the one that overfits the most to this set. One the other hand, if you use a large amount of data for evaluation, the performance boost gained by selecting the best model based on this evaluation set might be less than the boost gained by adding the evaluation set to the limited training set. Many companies overcome this trade-off by using a reasonably large evaluation set to select the best model, then continuing training the champion model on the evaluation set.
+
+
+
+
+#### Active Learning
+
+Active learning is a method for improving the efficiency of data labels. The hope here is that ML models can achieve greater accuracy with fewer training labels if they can choose which data samples to learn from.  
+
+![[Pasted image 20240802131323.png]]
+
+There are other heuristics such as choosing samples that, if trained on them, will give the highest gradient updates or will reduce the loss the most. 
+
+
+## **3. Class Imbalance**
+
+Class imbalance typically refers to a problem in classification tasks where there is a substantial difference in the number of samples in each class of the training data. 
+
+Class imbalance can also happen with regression tasks where the labels are continuous. Consider the task of estimating health-care bills. Health-care bills are highly skewed - the median bill is low, but the 95th percentile bill is astronomical. When predicting hospital bills, it might be more important to predict accurately the bills at the 95th percentile then the median bills. Therefore, we might have to train the model to be better at predicting 95th percentile bills, even if it reduces the overall metrics.
+
+### **3.1. Challenges of Class Imbalance**
+
+ML, especially deep learning, works well in situations when the data distribution is more balanced, and usually not so well when the classes are heavily imbalanced. 
+
+Class imbalance can make learning difficult for the following three reasons.
+
+The first reason is that class imbalance often means there's insufficient signal for your model to learn to detect the minority classes. In the cases where there is a small number of instances in the minority class, the problem becomes a few-shot learning problem where your model only gets to see the minority class a few times before having to make a decision on it.
+
+The second reason is that class imbalance makes it easier for your model to get stuck in a non-optimal solution by exploiting a simple heuristic instead of learning anything useful about the underlying pattern of the data. Consider the preceding lung cancer detection example. If your model learns to always output the majority class, its accuracy is already 99.99%
+
+The third reason is that class imbalance leads to asymmetric costs of error - the cost of a wrong prediction on a sample of the rare class might be much higher than a wrong prediction on a sample of the majority class. For example, misclassification on an X-ray with cancerous cells is much more dangerous than misclassification on an X-ray of a normal lung. If your loss function isn’t configured to address this asymmetry, your model will treat all samples the same way.
+
+Another cause for class imbalance, though less common, is due to labeling errors. Annotators might have read the instructions wrong or followed the wrong instructions (thinking there are only two classes, POSITIVE and NEGATIVE, while there are actually three), or simply made errors. Whenever faced with the problem of class imbalance, it’s important to examine your data to understand the causes of it.
+
+### **3.2. Handling Class Imbalance**
